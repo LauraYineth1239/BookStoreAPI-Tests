@@ -47,11 +47,12 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: ./
           publish_branch: gh-pages
           keep_files: true
           allow_empty_commit: true
           force_orphan: true
           enable_jekyll: false
           exclude_assets: ''
+          destination_dir: .
           full_commit_message: "Deploy Newman HTML Report"
