@@ -35,8 +35,8 @@ It also integrates **CI/CD with GitHub Actions** and generates **HTML reports** 
 
 ### 1️⃣ Clone the Repo
 ```bash
-git clone https://github.com/LauraYineth1239/BookStoreAPI-Tests.git
-cd BookStoreAPI-Test
+git clone https://github.com/<your-username>/<your-repo>.git
+cd <your-repo>
 ```
 
 ### 2️⃣ Install Dependencies
@@ -69,7 +69,7 @@ npx cypress run --spec "cypress/e2e/ui-tests.cy.js" --reporter mochawesome
 - ✅ **UI Tests Report** → `mochawesome-report/`
 
 **GitHub Actions Reports**:  
-[➡ View Artifacts Here](https://github.com/LauraYineth1239/BookStoreAPI-Tests/actions)
+[➡ View Artifacts Here](https://github.com/<your-username>/<your-repo>/actions)
 
 ---
 
@@ -135,7 +135,7 @@ jobs:
 
 ## 👩‍💻 Author
 **Your Name**  
-[LinkedIn](https://www.linkedin.com/in/lauradelgado1239/) | [GitHub](https://github.com/LauraYineth1239)
+[LinkedIn](https://linkedin.com/in/yourprofile) | [GitHub](https://github.com/your-username)
 
 ---
 
