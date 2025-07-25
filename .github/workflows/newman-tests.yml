@@ -32,3 +32,10 @@ jobs:
             --reporters cli,htmlextra \
             --reporter-htmlextra-export newman-report.html \
             --suppress-exit-code
+
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+                name: newman-html-report
+                path: ./report.html
+         
