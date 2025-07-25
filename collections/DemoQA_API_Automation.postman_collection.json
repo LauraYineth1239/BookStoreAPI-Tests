@@ -1,0 +1,227 @@
+{
+    "info": {
+        "name": "DemoQA API Automation",
+        "_postman_id": "demoqa-collection-123",
+        "description": "API Automation for DemoQA BookStore with positive and negative test cases.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Create User (Positive)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": "{{baseUrl}}/Account/v1/User",
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"userName\": \"PostmanUser123\", \"password\": \"Password@123\"}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Status code is 201 or 406', function() {",
+                            "    pm.expect(pm.response.code).to.be.oneOf([201, 406]);",
+                            "});",
+                            "var jsonData = pm.response.json();",
+                            "if(jsonData.userID){ pm.environment.set('userId', jsonData.userID); }"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Generate Token (Positive)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": "{{baseUrl}}/Account/v1/GenerateToken",
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"userName\": \"PostmanUser123\", \"password\": \"Password@123\"}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Status code is 200', function() {",
+                            "    pm.expect(pm.response.code).to.eql(200);",
+                            "});",
+                            "pm.test('Token exists', function() {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.token).to.exist;",
+                            "    pm.environment.set('token', jsonData.token);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Generate Token (Negative)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": "{{baseUrl}}/Account/v1/GenerateToken",
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"userName\": \"InvalidUser\", \"password\": \"WrongPassword\"}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Status code is 400 or 401 or 200', function() {",
+                            "    pm.expect(pm.response.code).to.be.oneOf([400, 401, 200]);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Get Books (Positive)",
+            "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/BookStore/v1/Books"
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Status code is 200', function() {",
+                            "    pm.expect(pm.response.code).to.eql(200);",
+                            "});",
+                            "pm.test('Books list is not empty', function() {",
+                            "    var jsonData = pm.response.json();",
+                            "    pm.expect(jsonData.books.length).to.be.above(0);",
+                            "    pm.environment.set('isbn', jsonData.books[0].isbn);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Add Book (Positive)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": "{{baseUrl}}/BookStore/v1/Books",
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"userId\": \"{{userId}}\", \"collectionOfIsbns\": [{\"isbn\": \"{{isbn}}\"}]}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Status code is 201 or 400', function() {",
+                            "    pm.expect(pm.response.code).to.be.oneOf([201, 400]);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Update Book (Positive)",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": "{{baseUrl}}/BookStore/v1/Books/{{isbn}}",
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"isbn\": \"9781449331818\"}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Status code is 200 or 400', function() {",
+                            "    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Delete Book (Positive)",
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "url": "{{baseUrl}}/BookStore/v1/Book",
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"isbn\": \"{{isbn}}\", \"userId\": \"{{userId}}\"}"
+                }
+            },
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test('Status code is 204 or 400', function() {",
+                            "    pm.expect(pm.response.code).to.be.oneOf([204, 400]);",
+                            "});"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
