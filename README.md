@@ -62,10 +62,3 @@ Publishes report on GitHub Pages
 ✔ Postman Collection & Environment
 ✔ GitHub Actions CI Workflow
 ✔ HTML Test Report via GitHub Pages
-
-🔥 Pro Tip: Add a screenshots folder and include Newman Dashboard image in README for a professional touch.
-
-👉 Do you want me to:
-✅ Generate this README for you as a file (README.md) with placeholders replaced with your GitHub username and repo name,
-AND
-✅ Add badges and links correctly pointing to your GitHub Pages report?
