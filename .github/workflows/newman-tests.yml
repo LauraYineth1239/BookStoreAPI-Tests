@@ -30,6 +30,12 @@ jobs:
           --reporter-htmlextra-export ./index.html \
           --suppress-exit-code
 
+      - name: Upload HTML Report as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-html-report
+          path: ./index.html
+
       - name: Deploy Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
