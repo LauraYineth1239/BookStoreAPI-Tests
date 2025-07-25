@@ -27,16 +27,21 @@ jobs:
 
       - name: Run API Tests with Newman
         run: |
-            mkdir -p reports
-            newman run collections/DemoQA_API_Automation.postman_collection.json \
+          mkdir -p reports
+          newman run collections/DemoQA_API_Automation.postman_collection.json \
             -e collections/DemoQA_Env.postman_environment.json \
             --reporters cli,htmlextra \
-            --reporter-htmlextra-export newman-report.html \
+            --reporter-htmlextra-export reports/index.html \
             --suppress-exit-code
 
-      - name: Upload HTML Report
+      - name: Upload HTML Report as Artifact
         uses: actions/upload-artifact@v4
         with:
-                name: newman-html-report
-                path: ./report.html
-         
+          name: newman-html-report
+          path: reports/index.html
+
+      - name: Deploy Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./reports
