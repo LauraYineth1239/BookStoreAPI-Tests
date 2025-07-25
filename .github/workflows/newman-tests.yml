@@ -1,0 +1,42 @@
+name: API Tests with Newman
+
+on:
+  push:
+    branches:
+      - main  # Puedes cambiarlo a la rama que uses
+
+jobs:
+  run-api-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Clona el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Instala Node.js (para usar Newman)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 3. Instala Newman y HTML Reporter
+      - name: Install Newman and HTML Reporter
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
+
+      # 4. Ejecuta la colección de Postman con el environment
+      - name: Run API tests with Newman
+        run: |
+          newman run DemoQA_API_Automation.postman_collection.json \
+            -e DemoQA_Env.postman_environment.json \
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export report.html
+
+      # 5. Publica el reporte como artifact
+      - name: Upload test report
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman-report
+          path: report.html
