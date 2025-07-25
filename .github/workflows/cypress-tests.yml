@@ -1,0 +1,40 @@
+name: Cypress UI Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd ui-tests
+          npm install
+
+      - name: Run Cypress tests
+        run: |
+          cd ui-tests
+          npx cypress run --browser chrome
+
+      - name: Upload Cypress videos and screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts
+          path: |
+            ui-tests/cypress/videos/
+            ui-tests/cypress/screenshots/
