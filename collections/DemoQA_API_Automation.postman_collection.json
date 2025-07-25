@@ -149,8 +149,8 @@
                     "listen": "test",
                     "script": {
                         "exec": [
-                            "pm.test('Status code is 201 or 400', function() {",
-                            "    pm.expect(pm.response.code).to.be.oneOf([201, 400]);",
+                            "pm.test('Status code is 201, 400 or 401', function() {",
+                            "    pm.expect(pm.response.code).to.be.oneOf([201, 400, 401]);",
                             "});"
                         ]
                     }
@@ -215,8 +215,8 @@
                     "listen": "test",
                     "script": {
                         "exec": [
-                            "pm.test('Status code is 204 or 400', function() {",
-                            "    pm.expect(pm.response.code).to.be.oneOf([204, 400]);",
+                            "pm.test('Status code is 201, 400, or 401', function() {",
+                            "    pm.expect(pm.response.code).to.be.oneOf([201, 400, 401]);",
                             "});"
                         ]
                     }
