@@ -27,6 +27,7 @@ jobs:
 
       - name: Run API Tests with Newman
         run: |
+            mkdir -p reports
             newman run collections/DemoQA_API_Automation.postman_collection.json \
             -e collections/DemoQA_Env.postman_environment.json \
             --reporters cli,htmlextra \
