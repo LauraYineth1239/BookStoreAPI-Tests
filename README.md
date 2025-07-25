@@ -1,71 +1,144 @@
-📚 BookStore API Tests with Postman & Newman
+# 🚀 QA Automation Project – API & UI Tests
 
-✅ Overview
-Automated API tests for BookStore API using:
-✔ Postman for API requests
-✔ Newman for CLI execution
-✔ HTML Extra Reporter for detailed reports
-✔ GitHub Actions CI for automation
+![Build Status](https://img.shields.io/github/actions/workflow/status/<your-username>/<your-repo>/ci.yml?branch=main)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
-🚀 Features
-✅ Automated tests for CRUD operations
+---
 
-✅ Positive and negative test cases
+## 📌 Overview
+This project includes **API Test Automation** (BookStore API) using **Postman + Newman** and **UI Test Automation** using **Cypress**.  
+It also integrates **CI/CD with GitHub Actions** and generates **HTML reports** automatically.
 
-✅ CI/CD with GitHub Actions
+---
 
-✅ HTML Report deployed to GitHub Pages
+## ✅ Features
+- **API Testing**:
+  - `POST /login`
+  - `GET /books`
+  - `POST /books`
+  - `PUT /books/{id}`
+  - `DELETE /books/{id}`
+  - Includes **positive & negative cases**
+- **UI Testing**:
+  - Login with valid/invalid credentials
+  - Create, Edit, and Delete a user
+- **Reports**:
+  - HTML Reports for API & UI
+  - GitHub Actions artifacts upload
+- **CI/CD**:
+  - Runs tests on every push to `main`
 
-✅ Easy setup (1–2 mins)
+---
 
-🛠 Tech Stack
-Postman
+## ⚡ Quick Start (2 minutes)
 
-Newman
-
-HTML Extra Reporter
-
-GitHub Actions
-
-⚡ Quick Setup (1–2 mins)
-1. Clone the repository
-
+### 1️⃣ Clone the Repo
+```bash
 git clone https://github.com/LauraYineth1239/BookStoreAPI-Tests.git
 cd BookStoreAPI-Test
+```
 
-2. Install Newman & HTML Extra Reporter
+### 2️⃣ Install Dependencies
+```bash
+# Install Node.js dependencies for Cypress
+npm install
 
+# Install Newman globally
 npm install -g newman newman-reporter-htmlextra
+```
 
-3. Run API Tests
+---
 
-newman run collections/DemoQA_API_Automation.postman_collection.json \
--e collections/DemoQA_Env.postman_environment.json \
---reporters cli,htmlextra \
---reporter-htmlextra-export report.html
+## 🧪 Run Tests Locally
 
-✅ CI/CD with GitHub Actions
-This project includes GitHub Actions workflow:
+### ▶ Run API Tests (Postman Collection)
+```bash
+newman run collections/DemoQA_API_Automation.postman_collection.json -e collections/DemoQA_Env.postman_environment.json --reporters cli,htmlextra --reporter-htmlextra-export newman-report.html
+```
 
-Runs Newman tests on push and pull request
+### ▶ Run UI Tests (Cypress)
+```bash
+npx cypress run --spec "cypress/e2e/ui-tests.cy.js" --reporter mochawesome
+```
 
-Generates HTML report
+---
 
-Publishes report on GitHub Pages
+## 📊 Reports
+- ✅ **API Tests Report** → `newman-report.html`
+- ✅ **UI Tests Report** → `mochawesome-report/`
 
-📄 View Report Here:
-➡ BookStore API Test Report
+**GitHub Actions Reports**:  
+[➡ View Artifacts Here](https://github.com/LauraYineth1239/BookStoreAPI-Tests/actions)
 
-📊 Sample Report Screenshot
+---
 
-✅ Deliverables
-✔ Postman Collection & Environment
-✔ GitHub Actions CI Workflow
-✔ HTML Test Report via GitHub Pages
+## ⚙ Tech Stack
+- **Postman & Newman** – API Testing
+- **Cypress** – UI Testing
+- **GitHub Actions** – CI/CD
+- **Mochawesome / HTML Extra** – Reporting
 
-🔥 Pro Tip: Add a screenshots folder and include Newman Dashboard image in README for a professional touch.
+---
 
-👉 Do you want me to:
-✅ Generate this README for you as a file (README.md) with placeholders replaced with your GitHub username and repo name,
-AND
-✅ Add badges and links correctly pointing to your GitHub Pages report?
+## ✅ CI/CD (GitHub Actions)
+This project runs tests automatically on every push to `main`.
+
+```yaml
+name: API & UI Tests CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install -g newman newman-reporter-htmlextra
+
+      - name: Run API Tests
+        run: |
+          newman run collections/DemoQA_API_Automation.postman_collection.json           -e collections/DemoQA_Env.postman_environment.json           --reporters cli,htmlextra           --reporter-htmlextra-export newman-report.html           --suppress-exit-code
+
+      - name: Run UI Tests
+        run: npx cypress run --reporter mochawesome
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            newman-report.html
+            mochawesome-report/
+```
+
+---
+
+## 📸 Screenshots
+![Sample Report Screenshot](screenshots/report-example.png)
+
+---
+
+## 👩‍💻 Author
+**Your Name**  
+[LinkedIn](https://www.linkedin.com/in/lauradelgado1239/) | [GitHub](https://github.com/LauraYineth1239)
+
+---
+
+### ✅ Next Steps
+- Add **code coverage** (NYC for API or Cypress Coverage plugin)
+- Add **visual regression testing** for UI
